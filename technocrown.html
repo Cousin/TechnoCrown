@@ -1,0 +1,96 @@
+<!--
+    Developed by https://github.com/Cousin
+    I am not a web/frontend developer
+-->
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>TechnoCrown</title>
+    <meta name="keywords" content="technoblade, technocrown, crown, minecraft, skin, generator, automatic">
+    <meta name="description" content="Add Technoblades famous crown to your Minecraft skin">
+    <meta name="author" content="Joey Executive">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+        body {
+            padding-top: 3%;
+        }
+
+        .container {
+            border-radius: 25px;
+            background: #fff2cf;
+        }
+    </style>
+</head>
+<body>
+<center>
+    <a href="https://www.curesarcoma.org/technoblade-tribute/" target="_blank"><h1>Click here to donate to the Sarcoma Foundation of America</h1></a><br>
+    <div class="container">
+    <h2>TechnoCrown</h2>
+    <h5>Enter your Minecraft username to automatically put Technoblade's famous crown on your Minecraft skin</h5>
+    <input id="mc_username" type="text" placeholder="Minecraft username"><br><br>
+    <input type="button" value="Generate" onclick="loadSkin()"><br><br>
+
+    <canvas id="skin_canvas"></canvas><br><br>
+    <input type="button" value="Download" onclick="downloadSkin()"><br><br>
+
+    <script type="text/javascript">
+
+        const canvas = document.getElementById("skin_canvas");
+
+        canvas.width = 64;
+        canvas.height = 64;
+
+        const ctx = canvas.getContext("2d");
+
+        loadSkin('Executive');
+
+        function loadSkin(suppliedName) {
+            $.getJSON('https://api.minetools.eu/uuid/' + (suppliedName == null ? document.getElementById("mc_username").value : suppliedName), function(data) {
+                ctx.reset();
+
+                var uuid = data['id'];
+
+                var uploadedSkin = new Image;
+                uploadedSkin.src = "https://crafatar.com/skins/" + uuid;
+                uploadedSkin.crossOrigin = "anonymous";
+
+                var technoCrown = new Image;
+                technoCrown.src = "/technocrownsprite.png";
+                technoCrown.crossOrigin = "anonymous";
+
+                uploadedSkin.onload = function () {
+                    ctx.drawImage(uploadedSkin, 0, 0);
+                }
+                technoCrown.onload = function () {
+                    ctx.drawImage(technoCrown, 32, 8);
+                }
+            });
+        }
+
+        function downloadSkin() {
+            var image = canvas.toDataURL();
+            var aDownloadLink = document.createElement('a');
+            aDownloadLink.download = document.getElementById("mc_username").value + '_techno_crown.png';
+            aDownloadLink.href = image;
+            aDownloadLink.click();
+        }
+
+    </script>
+    </div>
+    <br>
+    <a href="https://twitter.com/joeyexecutive" target="_blank"><img src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c53e.png" width="30" height="30"/></a>
+    <a href="https://github.com/Cousin" target="_blank"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="30" height="30"/></a>
+    <h5>Recommend to use on Desktop. Mobile doesn't render skin for some reason</h5>
+</center>
+</body>
+</html>
