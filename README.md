@@ -6,5 +6,5 @@ I have no clue what I am doing when it comes to frontend development, so pull re
 
 Some desirable features:
 - 3D render of skin
-- Work on iPhone/mobile
+- ~~Work on iPhone/mobile~~
 - Cleaner UI
